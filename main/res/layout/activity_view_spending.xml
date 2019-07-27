@@ -4,6 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewSpendingActivity">
+    tools:context=".ViewSpendingActivity"
+    android:background="@color/colorPrimaryDark">
 
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/account_transactions_graph"
+        android:layout_width="match_parent"
+        android:layout_height="385dp"
+        android:layout_marginTop="120dp"
+        android:background="@color/lightgray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:seriesColor="@color/lightgray"
+        tools:layout_editor_absoluteX="0dp"
+        />
+
+    <TextView
+        android:id="@+id/view_spending_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Your Spending: "
+        android:textColor="@color/lightgray"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

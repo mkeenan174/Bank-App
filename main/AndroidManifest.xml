@@ -23,7 +23,8 @@
         <activity android:name=".ViewSpendingActivity" />
         <activity android:name=".ViewTransactionsActivity" />
         <activity android:name=".TransferActivity" />
-        <activity android:name=".WithdrawDepositActivity"></activity>
+        <activity android:name=".WithdrawDepositActivity" />
+        <activity android:name=".OpenNewAccountActivity"></activity>
     </application>
 
 </manifest>

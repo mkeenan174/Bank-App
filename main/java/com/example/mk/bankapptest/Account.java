@@ -1,5 +1,6 @@
 package com.example.mk.bankapptest;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Account {
@@ -23,13 +24,27 @@ public class Account {
         this.accountBalance = accountBalance + amount;
     }
 
+    public void withdrawBalance(double amount ){
+        this.accountBalance = accountBalance - amount;
+        addTransaction(new Transaction(-amount,"Withdrawal of finance out of account.","Withdrawal", LocalDate.now()));
+    }
+
+    public void depositBalance(double amount){
+        this.accountBalance = accountBalance + amount;
+        addTransaction(new Transaction(amount,"Deposit of finance into account","Deposit",LocalDate.now()));
+    }
+
 
     public int getAccountNum(){
         return accountNum;
     }
 
-    public double getAccountBalance(){
+    public double getAccountBalance() {
         return accountBalance;
+    }
+
+    public String getFormattedAccountBalance(){
+        return currencyFormatter(accountBalance);
     }
 
     public LinkedList<Transaction> getMyTransactions() {
@@ -39,4 +54,10 @@ public class Account {
     public void addTransaction(Transaction transaction){
             myTransactions.add(transaction);
     }
+
+    public String currencyFormatter(double accountBalance){
+        String S = java.text.NumberFormat.getCurrencyInstance().format(accountBalance);
+        return S;
+    }
+
 }

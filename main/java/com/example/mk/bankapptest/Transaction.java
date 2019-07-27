@@ -9,11 +9,11 @@ public class Transaction {
     private String description;
     private String type;
 
-    public Transaction(double tAmount, String tDescription, String tType){
+    public Transaction(double tAmount, String tDescription, String tType, LocalDate tDate){
             this.amount = tAmount;
             this.description = tDescription;
             this.type = tType;
-            this.date = LocalDate.now();
+            this.date = tDate;
     }
 
     public LocalDate getDate() {

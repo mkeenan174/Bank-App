@@ -5,4 +5,6 @@
         <item>Student Account</item>
         <item>Current Account</item>
     </string-array>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

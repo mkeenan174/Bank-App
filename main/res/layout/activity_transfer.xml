@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TransferActivity"
-    android:background="@color/ButtonColor">
+    android:background="@color/colorPrimaryDark">
 
     <EditText
         android:id="@+id/payee_name_input"
@@ -36,7 +36,6 @@
         android:ems="10"
         android:hint="Amount"
         android:textSize="20sp"
-
         android:backgroundTint="@color/lightgray"
         android:textColor="@color/lightgray"
         android:textColorHint="@android:color/darker_gray"

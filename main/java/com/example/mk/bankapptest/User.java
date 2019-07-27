@@ -55,5 +55,14 @@ public class User {
 
     }
 
+    public String getAddress(){
+        return Address;
+    }
+
+    public void changeAddress(String email){
+        this.Address = email;
+        System.out.println("Email Changed to " + Address);
+    }
+
 
 }

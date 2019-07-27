@@ -1,7 +1,10 @@
 package com.example.mk.bankapptest;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
+import static com.example.mk.bankapptest.MainActivity.createAccountLinkBtn;
+import static com.example.mk.bankapptest.MainActivity.logInLinkBtn;
 import static com.example.mk.bankapptest.MainActivity.mainHandler;
 import static com.example.mk.bankapptest.MainActivity.welcomeTextView;
 public class BankThread extends Thread  {
@@ -17,6 +20,8 @@ public class BankThread extends Thread  {
             @Override
             public void run() {
             welcomeTextView.setText("Bank Created");
+            logInLinkBtn.setVisibility(View.VISIBLE);
+            createAccountLinkBtn.setVisibility(View.VISIBLE);
             }
         });
         Looper.loop();

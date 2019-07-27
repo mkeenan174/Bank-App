@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     public  static  Handler mainHandler = new Handler();
     public static TextView welcomeTextView;
     public static BankThread bankThread;
+    public static Button logInLinkBtn;
+    public static Button createAccountLinkBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         welcomeTextView = findViewById(R.id.welcomeTextView);
-        Button logInLinkBtn = (Button) findViewById(R.id.logInLinkBtn);
+        logInLinkBtn = (Button) findViewById(R.id.logInLinkBtn);
         logInLinkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,22 +34,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button createAccountLinkBtn = (Button) findViewById(R.id.createAccountLinkBtn);
+        createAccountLinkBtn = (Button) findViewById(R.id.createAccountLinkBtn);
         createAccountLinkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent startIntent = new Intent(getApplicationContext(),CreateAccountActivity.class);
                 startActivity(startIntent);
-                bankThread.handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                    bank.populateBank();
-                    welcomeTextView.setText("It worked!!!");
-                    }
-                });
             }
         });
-
 
     }
 

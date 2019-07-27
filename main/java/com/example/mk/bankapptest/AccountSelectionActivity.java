@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,99 +12,87 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.mk.bankapptest.BankThread.bank;
 
 
 public class AccountSelectionActivity extends AppCompatActivity {
     ListView accountSelectionListView;
-    static volatile   String [] accBalances;
+    static volatile String[][] resultsArray;
+    static volatile String [] accBalances;
     static volatile String [] accTypes;
     static volatile String [] accNumbers;
-    BankThread bankThread;
-    Context mContext;
+    static volatile String [] tranTypes;
+    static volatile String [] tranDates;
+    static volatile String [] tranDescs;
+    static volatile String [] tranAmounts;
+    static BankThread bankThread;
+    static TextView accSelectError;
+    Intent menuActivity;
+    Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_selection);
         bankThread = MainActivity.getBankThread();
-        final TextView accSelectError = (TextView) findViewById(R.id.accSelectError);
+        accSelectError = (TextView) findViewById(R.id.accSelectError);
         accountSelectionListView = (ListView) findViewById(R.id.AccountSelectionMenuView );
-
-        bankThread.handler.post(new Runnable() {
-            @Override
-            public void run() {
-                accTypes = bank.getUserAccTypes();
-                accNumbers = bank.getUserAccNum();
-                accBalances = bank.getUserAccBalance();
-                Intent accArraysIntent = new Intent("getArrays");
-                accArraysIntent.putExtra("theTypes",accTypes);
-                accArraysIntent.putExtra("theNumbers",accNumbers);
-                accArraysIntent.putExtra("theBalances",accBalances);
-
-                LocalBroadcastManager.getInstance(mContext).sendBroadcast(accArraysIntent);
-            }
-        });
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReciever, new IntentFilter("getArrays"));
-            /*
-            accTypes = bank.getUserAccTypes();
-            if(accTypes != null){
-                accSelectError.setText("Error null accType array");
-            }
-            accBalances = bank.getUserAccBalance();
-                if(accBalances != null){
-                    accSelectError.setText("Error null accBalances array");
-                }
-
-            accNumbers = bank.getUserAccNum();
-                if(accNumbers != null){
-                    accSelectError.setText("Error null accNumbers array");
-                }
-            }*/
-
-            String test = accTypes[0];
-            accSelectError.setText(test);
-            test = accNumbers[0];
-            accSelectError.setText(test);
-            test = accBalances[0];
-            accSelectError.setText(test);
+        menuActivity = new Intent(getApplicationContext(), MainMenuActivity.class);
 
 
-
-
-        if(accTypes != null || accBalances != null || accNumbers != null) {
-            ItemAdapter itemAdapter = new ItemAdapter(this, accTypes, accBalances, accNumbers);
-            accountSelectionListView.setAdapter(itemAdapter);
-        }else{
-            accSelectError.setText("Error null array");
+        getAccountInfoTask task = new getAccountInfoTask();
+        task.execute(tranTypes);
+        if(task.getStatus() == AsyncTask.Status.FINISHED){
+            accSelectError.setText(tranTypes[0]);
         }
 
+    }
+
+
+
+
+private class  getAccountInfoTask extends AsyncTask<String[],Integer,LinkedList>{
+    String[] resultsAccType;
+    String[] resultsAccNum;
+    String[] resultsAccBal;
+    LinkedList<String[]> accResults = new LinkedList();
+    @Override
+    protected LinkedList doInBackground(String[]... strings) {
+        resultsAccType = bank.getUserAccTypes();
+        resultsAccNum = bank.getUserAccNum();
+        resultsAccBal = bank.getUserAccBalance();
+        accResults.add(resultsAccType);
+        accResults.add(resultsAccNum);
+        accResults.add(resultsAccBal);
+        return accResults;
+    }
+
+    @Override
+    protected void onPostExecute(LinkedList strings) {
+        super.onPostExecute(strings);
+        accTypes = accResults.get(0);
+        accNumbers = accResults.get(1);
+        accBalances = accResults.get(2);
+        ItemAdapter itemAdapter = new ItemAdapter(mContext, accTypes, accBalances, accNumbers);
+        accountSelectionListView.setAdapter(itemAdapter);
+        Toast.makeText(mContext, accTypes[0], Toast.LENGTH_SHORT).show();
         accountSelectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent menuActivity = new Intent(getApplicationContext(), MainMenuActivity.class);
-                //menuActivity.putExtra("com.example.mk.INDEX", position);
                 bank.setLogAccount(position);
                 startActivity(menuActivity);
             }
         });
+    }
+}
 
-
-
-
+    public void onBackPressed(){
 
     }
-
-    BroadcastReceiver mReciever = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            accTypes = intent.getStringArrayExtra("theTypes");
-            accBalances = intent.getStringArrayExtra("theBalances");
-            accNumbers = intent.getStringArrayExtra("theNumbers");
-
-
-        }
-    };
-
 }

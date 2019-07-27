@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
 
     <TextView
-        android:id="@+id/type_text_view"
+        android:id="@+id/tran_type_text_view"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
@@ -12,7 +13,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tran_date_text_view"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
@@ -22,20 +23,21 @@
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tran_amount_text_view"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/type_text_view"
+        android:layout_below="@+id/tran_type_text_view"
         android:text="€00.00"
         android:textAlignment="textEnd"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tran_desc_text_view"
         android:layout_width="264dp"
         android:layout_height="30sp"
-        android:layout_below="@+id/type_text_view"
-        android:layout_toStartOf="@+id/textView2"
+        android:layout_below="@+id/tran_type_text_view"
+        android:layout_toStartOf="@+id/tran_date_text_view"
         android:text="Description"
         android:textSize="16sp" />
 </RelativeLayout>
